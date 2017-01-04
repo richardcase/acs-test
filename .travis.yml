@@ -33,12 +33,15 @@ script:
   - echo "No tests"
 
 after_success:
-  - dotnet publish ./src/AcsTest.WebAPI/project.json -c release -o publish
   - export REPO_API=richardcase/acstest-WebAPI
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - export VERSION=`cat ./VERSION`
+  - export BUILDDATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
+  - dotnet publish ./src/AcsTest.WebAPI/project.json -c release -o publish
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - cd publish
-  - docker build -f  ../src/AcsTest.WebAPI/Dockerfile -t $REPO_API:$COMMIT .
+  - docker build -f  ../src/AcsTest.WebAPI/Dockerfile -t $REPO_API:$COMMIT --build-arg BUILD_DATE=$BUILDDATE --build-arg VCS_REF=$COMMIT --build-arg VERSION=$VERSION .
   - docker tag $REPO_API:$COMMIT $REPO_API:$TAG
   - docker tag $REPO_API:$COMMIT $REPO_API:travis-$TRAVIS_BUILD_NUMBER
+  - docker tag $REPO_API:$COMMIT $REPO_API:$VERSION
   - docker push $REPO_API
