@@ -12,24 +12,29 @@ env:
   global:  
     - CLI_VERSION=latest
     - COMMIT=${TRAVIS_COMMIT::8}
+    - DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 services:
   - docker
 
-addons:  
-  apt:
-    packages:
-    - gettext
-    - libcurl4-openssl-dev
-    - libicu-dev
-    - libssl-dev
-    - libunwind8
-    - zlib1g
+#addons:  
+#  apt:
+#    packages:
+#    - gettext
+#    - libcurl4-openssl-dev
+#    - libicu-dev
+#    - libssl-dev
+#    - libunwind8
+#    - zlib1g
   
 before_install:  
-  - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
-  - curl -sSL https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
-  - export PATH="$DOTNET_INSTALL_DIR:$PATH"
+  - echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ yakkety main" > /etc/apt/sources.list.d/dotnetdev.list
+  - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+  - apt-get update
+  - apt-get install dotnet-dev-1.0.0-preview2.1-003177
+  #- export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
+  #- curl -sSL https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
+  #- export PATH="$DOTNET_INSTALL_DIR:$PATH"
 
 install:  
     - dotnet restore ./src/AcsTest.WebAPI/project.json
