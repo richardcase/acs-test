@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-EXPOSE 40044
+EXPOSE 5000
 
 ENTRYPOINT ["dotnet",]
 CMD ["run", "-e Production","AcsTest.WebAPI.dll"]

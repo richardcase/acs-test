@@ -18,7 +18,7 @@ services:
   - docker
 
 before_install: 
-  # NOTE: we could compile the application in a docker image instead
+  # NOTE: we could compile the application in a docker image instead. See https://hub.docker.com/r/microsoft/aspnetcore-build/
   - sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
   - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
   - sudo apt-get update
@@ -39,7 +39,7 @@ after_success:
   - dotnet publish ./src/AcsTest.WebAPI/project.json -c release -o publish
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - cd publish
-  - docker build -f  ../src/AcsTest.WebAPI/Dockerfile -t $REPO_API:$COMMIT --build-arg BUILD_DATE=$BUILDDATE --build-arg VCS_REF=$COMMIT --build-arg VERSION=$VERSION .
+  - docker build -f  Dockerfile -t $REPO_API:$COMMIT --build-arg BUILD_DATE=$BUILDDATE --build-arg VCS_REF=$COMMIT --build-arg VERSION=$VERSION .
   - docker tag $REPO_API:$COMMIT $REPO_API:$TAG
   - docker tag $REPO_API:$COMMIT $REPO_API:travis-$TRAVIS_BUILD_NUMBER
   - docker tag $REPO_API:$COMMIT $REPO_API:$VERSION
