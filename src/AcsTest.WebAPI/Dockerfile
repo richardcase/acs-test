@@ -1,13 +1,10 @@
-FROM microsoft/aspnetcore:1.0.1
+FROM microsoft/aspnetcore:1.1.0
 
 WORKDIR /app
 
 COPY . .
 
-EXPOSE 5000
-
-ENTRYPOINT ["dotnet",]
-CMD ["run", "-e Production","AcsTest.WebAPI.dll"]
+ENTRYPOINT ["dotnet", "AcsTest.WebAPI.dll"]
 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE

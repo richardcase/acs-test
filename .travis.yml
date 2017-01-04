@@ -37,6 +37,7 @@ after_success:
   - export VERSION=`cat ./VERSION`
   - export BUILDDATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
   - dotnet publish ./src/AcsTest.WebAPI/project.json -c release -o publish
+  # The below login is using the public image registry but this can be a private registry
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - cd publish
   - docker build -f  Dockerfile -t $REPO_API:$COMMIT --build-arg BUILD_DATE=$BUILDDATE --build-arg VCS_REF=$COMMIT --build-arg VERSION=$VERSION .
