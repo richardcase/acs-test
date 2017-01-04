@@ -1,0 +1,44 @@
+ sudo: required  
+dist: trusty  
+
+language: csharp 
+
+env:  
+  - CLI_VERSION=latest
+  - COMMIT=${TRAVIS_COMMIT::8}
+
+services:
+  - docker
+
+addons:  
+  apt:
+    packages:
+    - gettext
+    - libcurl4-openssl-dev
+    - libicu-dev
+    - libssl-dev
+    - libunwind8
+    - zlib1g
+  
+before_install:  
+  - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
+  - curl -sSL https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
+  - export PATH="$DOTNET_INSTALL_DIR:$PATH"
+
+install:  
+    - dotnet restore ./src/AcsTest.WebAPI/project.json
+
+script: 
+  #- dotnet test
+  - echo "No tests"
+
+after_success:
+  - dotnet publish ./src/AcsTest.WebAPI/project.json -c release -o publish
+  - export REPO_API=richardcase/acstest-WebAPI
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - cd publish
+  - docker build -f  ../src/AcsTest.WebAPI/Dockerfile -t $REPO_API:$COMMIT .
+  - docker tag $REPO_API:$COMMIT $REPO_API:$TAG
+  - docker tag $REPO_API:$COMMIT $REPO_API:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO_API
