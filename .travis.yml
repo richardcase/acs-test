@@ -49,7 +49,7 @@ after_success:
   - export VERSION=`cat ./VERSION`
   - export BUILDDATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
   - dotnet publish ./src/AcsTest.WebAPI/project.json -c release -o publish
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - cd publish
   - docker build -f  ../src/AcsTest.WebAPI/Dockerfile -t $REPO_API:$COMMIT --build-arg BUILD_DATE=$BUILDDATE --build-arg VCS_REF=$COMMIT --build-arg VERSION=$VERSION .
   - docker tag $REPO_API:$COMMIT $REPO_API:$TAG
