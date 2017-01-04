@@ -16,5 +16,7 @@ namespace AcsTest.WebAPI
         public double Rrp { get; set; }
 
         public int SkuId { get; set; }
+
+        public string Annotation { get; set; }
     }
 }
