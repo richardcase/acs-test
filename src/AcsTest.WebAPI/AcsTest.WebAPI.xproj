@@ -14,7 +14,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
-    <ApplicationInsightsResourceId>/subscriptions/192f316c-7515-49db-a399-ae041518faea/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AcsTest.WebAPI</ApplicationInsightsResourceId>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
