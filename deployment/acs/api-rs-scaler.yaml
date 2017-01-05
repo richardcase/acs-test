@@ -1,0 +1,11 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: acstest-api-scaler
+spec:
+  scaleTargetRef:
+    kind: ReplicaSet
+    name: acstest-api
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 50

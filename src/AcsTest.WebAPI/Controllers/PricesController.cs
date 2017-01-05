@@ -17,8 +17,6 @@ namespace AcsTest.WebAPI.Controllers
 
         private List<SkuPrice> GetSkuPricesByProductId(int productId)
         {
-            string annotation = string.Format("Machine name: {0}", Environment.MachineName);
-
             List<SkuPrice> skuPrices = new List<SkuPrice>
             {
                 new SkuPrice
@@ -28,7 +26,7 @@ namespace AcsTest.WebAPI.Controllers
                     HighestPrice = 15.00,
                     Rrp = 20.00,
                     SkuId = 12345,
-                    Annotation = annotation
+                    Annotation = Environment.MachineName
                 },
                 new SkuPrice
                 {
@@ -37,7 +35,7 @@ namespace AcsTest.WebAPI.Controllers
                     HighestPrice = 10.00,
                     Rrp = 12.00,
                     SkuId = 95959,
-                    Annotation = annotation
+                    Annotation = Environment.MachineName
                 }
             };
 

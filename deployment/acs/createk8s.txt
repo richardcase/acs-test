@@ -18,7 +18,13 @@ az acs kubernetes install-cli
 #  kubectl get nodes
 
 # Start the test container
-kubectl run acstest-api --image richardcase/acstest-api
+#kubectl run acstest-api --image richardcase/acstest-api:1.0.0
+
+# Create the replication SET
+kubectl create -f api-replicaset.yaml
+
+# Create the horizontal pod autoscaler
+kubectl create -f api-rs-scaler.yaml
 
 # Check the pods
 kubectl get pods
