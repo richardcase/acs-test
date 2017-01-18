@@ -1,5 +1,5 @@
 apiVersion: extensions/v1beta1
-kind: ReplicaSet
+kind: Deployment
 metadata:
   name: acstest-api
   # these labels can be applied automatically
@@ -9,6 +9,12 @@ metadata:
     tier: internal-api
 spec:
   replicas: 3
+  # Update pods with rolling update
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   # selector can be applied automatically
   # from the labels in the pod template if not set,
   # but we are specifying the selector here to
