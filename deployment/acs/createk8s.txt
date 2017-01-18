@@ -20,8 +20,19 @@ az acs kubernetes install-cli
 # Start the test container
 #kubectl run acstest-api --image richardcase/acstest-api:1.0.0
 
+# Do one of the following
 # Create the replication SET
 kubectl create -f api-replicaset.yaml
+# Create deployment
+kubectl create -f api-deployment.yaml
+
+# Create the service (one of the following)
+#kubectl create -f api-service-nolb.yaml
+kubectl create -f api-service.yaml
+
+# If creating ingress controller using NGINX - loadbalancing not supported
+#kubectl create -f nginx-ingress-rc.yaml
+#kubectl create -f api-ingress.yaml
 
 # Create the horizontal pod autoscaler
 kubectl create -f api-rs-scaler.yaml

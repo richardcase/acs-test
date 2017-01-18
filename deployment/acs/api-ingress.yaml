@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: api-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/
+        backend:
+          serviceName: acstest-api-svc
+          servicePort: 30100
+      #- path: /coffee
+      #  backend:
+      #    serviceName: coffee-svc
+      #    servicePort: 80
